@@ -1,0 +1,79 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    color: #fff;
+    font-size: 16px;
+}
+.play-list {
+    list-style-type: none;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    min-height: 220px;
+}
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    min-height: 260px;
+    padding: 20px;
+}
+.time {
+    min-height: 124px;
+    font-family: 'Arial-MT';
+    font-size: 100px;
+    letter-spacing: -4px;
+}
+.date {
+    font-size: 24px;
+    color:#fff;
+}
+.name {
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    color:#fff;
+    font-size: 40px;
+}
+.greeting {
+    padding: 10px;
+    text-align: right;
+    font-size: 40px;
+}
+.slider-icon {
+    position: absolute;
+    top: 50%;
+    margin-top: -16px;
+    cursor: pointer;
+
+    width: 32px;
+    height: 32px;
+    background-size: 32px 32px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    opacity: .8;
+    cursor: pointer;
+    transition: .3s;
+}
+.slider-icon:hover {
+    opacity: 1;
+}
+.slide-prev{
+    left: 20px;
+    background-image: url(/momentum/slider-prev.svg);
+}
+.slide-next {
+    right: 20px;
+    background-image: url(/momentum/slider-next.svg);
+}

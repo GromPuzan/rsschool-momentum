@@ -1,37 +1,108 @@
-window.addEventListener("DOMContentLoaded", () => {
-  const time = document.querySelector(".time");
-  const date = new Date();
-  const hours = date.getHours();
-  const day = document.querySelector(".date");
-  const currentTime = date.toLocaleTimeString();
-  const options = { month: "long", day: "numeric", timeZone: "UTC" };
-  const currentDate = date.toLocaleDateString("en-En", options);
-  const greeting = document.querySelector('.greeting')
-  const body = document.querySelector('body')
-  body.style.backgroundImage = "url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/evening/18.jpg')";
-  function showTime() {
-    time.textContent = currentTime;
-    setTimeout(showTime, 1000);
+const time = document.querySelector(".time");
+const date = new Date();
+const hours = date.getHours();
+const day = document.querySelector(".date");
+const currentTime = date.toLocaleTimeString();
+const options = { month: "long", day: "numeric", timeZone: "UTC" };
+const currentDate = date.toLocaleDateString("en-En", options);
+const greeting = document.querySelector(".greeting");
+const body = document.querySelector("body");
+const name = document.querySelector(".name");
+body.style.backgroundImage =
+  "url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/evening/18.jpg')";
+let randomNum = getRandomNum(1, 21);
+const slideNext = document.querySelector(".slide-next");
+const slidePrev = document.querySelector(".slide-prev");
+const weatherIcon = document.querySelector(".weather-icon");
+const temperature = document.querySelector(".temperature");
+const weatherDescription = document.querySelector(".weather-description");
+
+showTime();
+function showTime() {
+  time.textContent = currentTime;
+  setTimeout(showTime, 1000);
+}
+
+function showDate() {
+  day.textContent = currentDate;
+}
+showDate();
+
+function getTimeOfDay() {
+  let i = Math.floor(hours / 6);
+  if (i == 1) {
+    return (greeting.textContent = "Good morning");
+  } else if (i == 2) {
+    return (greeting.textContent = "Good afternoon");
+  } else if (i == 3) {
+    return (greeting.textContent = "Good evening");
+  } else if (i == 0 || i == 4) {
+    return (greeting.textContent = "Good night");
   }
-  showTime();
-  function showDate() {
-    day.textContent = currentDate;
+}
+getTimeOfDay();
+
+function getRandomNum(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function setBg() {
+  if (randomNum < 10) {
+    randomNum = randomNum.toString().padStart(2, "0");
   }
-  showDate();
-  function getTimeOfDay () {
-    let i = Math.floor(hours/6);
-    if (i==1){
-      return greeting.textContent = 'Good morning'
-    }
-    else if(i==2){
-      return greeting.textContent = 'Good afternoon'
-    }
-    else if(i==3){
-      return greeting.textContent = 'Good evening'
-    }
-    else if(i==0){
-      return greeting.textContent = 'Good night'
-    }
+  if (getTimeOfDay() == "Good afternoon") {
+    body.style.backgroundImage = `url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/afternoon/${randomNum}.jpg')`;
+  } else if (getTimeOfDay() == "Good evening") {
+    body.style.backgroundImage = `url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/evening/${randomNum}.jpg')`;
+  } else if (getTimeOfDay() == "Good night") {
+    body.style.backgroundImage = `url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/night/${randomNum}.jpg')`;
+  } else {
+    body.style.backgroundImage = `url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/morning/${randomNum}.jpg')`;
   }
-  getTimeOfDay();
+}
+setBg();
+console.log(Number(randomNum));
+
+slidePrev.addEventListener("click", function clickPrev() {
+  if (randomNum == 1){
+    randomNum = 20;
+  }
+  else {
+    randomNum--;
+  }
+  setBg(randomNum, clickPrev);
 });
+
+slideNext.addEventListener("click", function clickNext() {
+  if (randomNum ==20) {
+    randomNum = 1
+  }
+  else {
+    randomNum++;
+  }
+  setBg(randomNum, clickNext);
+});
+
+async function getWeather() {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=Минск&lang=ru&appid=2a5d749c64b251d9bd8104ad9c066de3&units=metric`;
+  const res = await fetch(url);
+  const data = await res.json();
+  weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+  temperature.textContent = `${data.main.temp}°C`;
+  weatherDescription.textContent = data.weather[0].description;
+  console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
+}
+getWeather();
+
+function setLocalStorage() {
+  localStorage.setItem("name", name.value);
+}
+window.addEventListener("beforeunload", setLocalStorage);
+function getLocalStorage() {
+  if (localStorage.getItem("name")) {
+    name.value = localStorage.getItem("name");
+  }
+}
+window.addEventListener("load", getLocalStorage);
