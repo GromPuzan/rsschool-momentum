@@ -15,7 +15,11 @@ const slideNext = document.querySelector(".slide-next");
 const slidePrev = document.querySelector(".slide-prev");
 const weatherIcon = document.querySelector(".weather-icon");
 const temperature = document.querySelector(".temperature");
+const wind = document.querySelector(".wind")
+const humidity = document.querySelector(".humidity")
 const weatherDescription = document.querySelector(".weather-description");
+const city = document.querySelector('.city');
+let cityInput = '';
 
 showTime();
 function showTime() {
@@ -86,15 +90,24 @@ slideNext.addEventListener("click", function clickNext() {
 });
 
 async function getWeather() {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=Минск&lang=ru&appid=2a5d749c64b251d9bd8104ad9c066de3&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=ru&appid=2a5d749c64b251d9bd8104ad9c066de3&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
+  weatherIcon.className = 'weather-icon owf';
   weatherIcon.classList.add(`owf-${data.weather[0].id}`);
   temperature.textContent = `${data.main.temp}°C`;
   weatherDescription.textContent = data.weather[0].description;
+  wind.textContent = `Скорость ветра: ${data.wind.speed}м/c`;
+  humidity.textContent = `Влажность: ${data.main.humidity}%`;
   console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
+
 }
 getWeather();
+city.addEventListener('change', () => {
+  cityInput = city.value;
+  getWeather();
+});
+
 
 function setLocalStorage() {
   localStorage.setItem("name", name.value);
