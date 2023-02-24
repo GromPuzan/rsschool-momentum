@@ -6,6 +6,11 @@
 body {
     color: #fff;
     font-size: 16px;
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    overflow-x: hidden;
 }
 .play-list {
     list-style-type: none;
@@ -26,6 +31,65 @@ body {
     min-height: 370px;
     padding: 20px;
 }
+.player-button-prev {
+    background-image: url(../play-prev.svg);
+}
+.player-button-next {
+    background-image: url(../play-next.svg);
+}
+.player-button-play {
+    background-image: url(../play.svg);
+}
+.player-button-pause {
+    background-image: url(../pause.svg);
+}
+.player-button-next, .player-button-play,.player-button-prev,.player-button-pause {
+    width: 32px;
+    height: 32px;
+    background-size: 32px 32px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    opacity: 0.8;
+    cursor: pointer;
+    transition: .3s;
+}
+.player-button-play,.player-button-pause {
+    width: 45px;
+    height: 45px;
+    background-size: 45px 45px; 
+}
+.player-icon:active {
+    border: 0;
+    outline: 0;
+    transform: scale(1.1);
+}
+.play-list {
+    margin-top: 20px;
+}
+.play-item {
+    position: relative;
+    padding: 5px;
+    padding-left: 5px;
+    padding-left: 20px;
+    list-style: none;
+    opacity: .8;
+    cursor: pointer;
+    transition: .3s;
+}
+.play-item::before {
+	content: "\2713";
+	position: absolute;
+	left: 0;
+	top: 2px;
+	font-weight: 900;
+}
+.item-active::before {
+	color: #C5B358;
+}
+
 .time {
     min-height: 124px;
     font-family: 'Arial-MT';

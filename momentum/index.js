@@ -2,7 +2,7 @@ const time = document.querySelector(".time");
 const date = new Date();
 const hours = date.getHours();
 const day = document.querySelector(".date");
-const currentTime = date.toLocaleTimeString();
+let currentTime = date.toLocaleTimeString();
 const options = { month: "long", day: "numeric", timeZone: "UTC" };
 const currentDate = date.toLocaleDateString("en-En", options);
 const greeting = document.querySelector(".greeting");
@@ -25,6 +25,8 @@ const quote = document.querySelector(".quote");
 const author = document.querySelector(".author");
 let data = [];
 let cityInput = "";
+let isPlay = false;
+
 
 showTime();
 function showTime() {
@@ -90,7 +92,7 @@ slideNext.addEventListener("click", function clickNext() {
   }
   setBg(randomNum, clickNext);
 });
-
+city.value = 'Minsk'
 async function getWeather() {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=ru&appid=2a5d749c64b251d9bd8104ad9c066de3&units=metric`;
   const res = await fetch(url);
@@ -117,7 +119,6 @@ async function getQuotes() {
   console.log(data);
   showQuote();
 }
-// showQuote();
 
 function showQuote() {
   const num = getRandomNum(1, data.length);
@@ -130,6 +131,56 @@ changeQuote.addEventListener("click", () => {
 });
 
 
+// Аудиоплеер
+const playerPlay = document.querySelector('.player-button-play');
+const playerPause = document.querySelector('.player-button-pause');
+const playerNext = document.querySelector('.player-button-next');
+const playerPrev = document.querySelector('.player-button-prev');
+playerPlay.addEventListener("click", () => {
+  playerPlay.classList.add('player-button-pause');
+  if(isPlay === true){
+    pauseAudio();
+    isPlay = false;
+  }
+  else {
+    playAudio();
+  }
+});
+let playNum = 0;
+const audio = new Audio();
+function playAudio() {
+  audio.src = playList[playNum].src;
+  audio.currentTime = 0;
+  audio.play();
+  isPlay = true;
+  listItem[playNum].classList.add('item-active');
+};
+playerPrev.addEventListener('click', () => {
+  playerPlay.classList.add('player-button-pause');
+  playNum == 0 ? (playNum = playList.length - 1) : playNum--;
+  playAudio();
+  isPlay = true;
+  listItem[playNum].classList.add('item-active');
+  listItem[playNum+1].classList.remove('item-active');
+});
+playerNext.addEventListener('click', () => {
+  playerPlay.classList.add('player-button-pause');
+  playNum == playList.length - 1 ? (playNum = 0) : playNum++;
+  playAudio();
+  isPlay = true;
+  listItem[playNum].classList.add('item-active');
+  listItem[playNum-1].classList.remove('item-active');
+});
+"./assets/sounds/Aqua Caelestis.mp3"
+function pauseAudio() {
+  audio.pause();
+  playerPlay.classList.remove('player-button-pause');
+}
+import playList from './playList.js';
+console.log(playList);
+
+const li = document.createElement('li');
+const listItem = document.querySelectorAll('.play-item');
 
 function setLocalStorage() {
   localStorage.setItem("name", name.value);
