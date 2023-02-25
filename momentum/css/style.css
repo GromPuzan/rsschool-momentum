@@ -119,6 +119,29 @@ body {
     transition: 0.25s;
     width: 0%;
 }
+.volume-container {
+    display: flex;
+    align-items: center;
+}
+.volume-icon {
+    background: url(../assets/volume-up-4-48.png);
+    width: 30px;
+    height: 30px;
+    background-size: 30px 30px;
+}
+.volume-slider {
+    margin-left: 8px;
+    width: 50px;
+    height: 5px;
+    background: white;
+    box-shadow: 0 0 20px #000a;
+    transition: .25s;
+}
+.volume-percentage {
+    background: #C5B358;
+    height: 100%;
+    width: 75%;
+}
 .time {
     min-height: 124px;
     font-family: 'Arial-MT';

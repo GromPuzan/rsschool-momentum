@@ -235,6 +235,15 @@ audio.addEventListener(
   false
 );
 
+// регулятор громкости 
+const volumeSlider = document.querySelector(".volume-slider");
+const volumePercentage = document.querySelector('.volume-percentage')
+volumeSlider.addEventListener('click', e => {
+  const sliderWidth = window.getComputedStyle(volumeSlider).width;
+  const newVolume = e.offsetX / parseInt(sliderWidth);
+  audio.volume = newVolume;
+  volumePercentage.style.width = newVolume * 100 + '%';
+}, false)
 
 function setLocalStorage() {
   localStorage.setItem("name", name.value);
