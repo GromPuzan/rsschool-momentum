@@ -1,10 +1,9 @@
 const time = document.querySelector(".time");
-const date = new Date();
-const hours = date.getHours();
+// const date = new Date();
+// const hours = date.getHours();
 const day = document.querySelector(".date");
-let currentTime = date.toLocaleTimeString();
 const options = { month: "long", day: "numeric", timeZone: "UTC" };
-const currentDate = date.toLocaleDateString("en-En", options);
+// const currentDate = date.toLocaleDateString("en-En", options);
 const greeting = document.querySelector(".greeting");
 const body = document.querySelector("body");
 const name = document.querySelector(".name");
@@ -27,19 +26,26 @@ let data = [];
 let cityInput = "";
 let isPlay = false;
 
-
 showTime();
 function showTime() {
-  time.textContent = currentTime;
+  const date = new Date();
+  time.textContent = date.toLocaleTimeString();
   setTimeout(showTime, 1000);
+  showDate();
 }
 
 function showDate() {
+  const date = new Date();
+  let options;
+  options = { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long', timeZone: 'UTC' };
+  const currentDate = date.toLocaleDateString("en-En", options);
   day.textContent = currentDate;
 }
-showDate();
+
 
 function getTimeOfDay() {
+  const date = new Date();
+  const hours = date.getHours();
   let i = Math.floor(hours / 6);
   if (i == 1) {
     return (greeting.textContent = "Good morning");
@@ -99,9 +105,9 @@ async function getWeather() {
   const data = await res.json();
   weatherIcon.className = "weather-icon owf";
   weatherIcon.classList.add(`owf-${data.weather[0].id}`);
-  temperature.textContent = `${data.main.temp}°C`;
+  temperature.textContent = `${Math.floor(data.main.temp)}°C`;
   weatherDescription.textContent = data.weather[0].description;
-  wind.textContent = `Скорость ветра: ${data.wind.speed}м/c`;
+  wind.textContent = `Скорость ветра: ${Math.floor(data.wind.speed)}м/c`;
   humidity.textContent = `Влажность: ${data.main.humidity}%`;
   console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
 }
@@ -133,9 +139,10 @@ changeQuote.addEventListener("click", () => {
 
 // Аудиоплеер
 const playerPlay = document.querySelector('.player-button-play');
-const playerPause = document.querySelector('.player-button-pause');
 const playerNext = document.querySelector('.player-button-next');
 const playerPrev = document.querySelector('.player-button-prev');
+const title = document.querySelector('.title');
+
 playerPlay.addEventListener("click", () => {
   playerPlay.classList.add('player-button-pause');
   if(isPlay === true){
@@ -153,6 +160,7 @@ function playAudio() {
   audio.currentTime = 0;
   audio.play();
   isPlay = true;
+  listItem.forEach((el) => el.classList.remove('item-active'));
   listItem[playNum].classList.add('item-active');
 };
 playerPrev.addEventListener('click', () => {
@@ -160,27 +168,73 @@ playerPrev.addEventListener('click', () => {
   playNum == 0 ? (playNum = playList.length - 1) : playNum--;
   playAudio();
   isPlay = true;
-  listItem[playNum].classList.add('item-active');
-  listItem[playNum+1].classList.remove('item-active');
 });
 playerNext.addEventListener('click', () => {
   playerPlay.classList.add('player-button-pause');
   playNum == playList.length - 1 ? (playNum = 0) : playNum++;
   playAudio();
   isPlay = true;
-  listItem[playNum].classList.add('item-active');
-  listItem[playNum-1].classList.remove('item-active');
 });
-"./assets/sounds/Aqua Caelestis.mp3"
 function pauseAudio() {
   audio.pause();
   playerPlay.classList.remove('player-button-pause');
 }
+
 import playList from './playList.js';
 console.log(playList);
 
 const li = document.createElement('li');
 const listItem = document.querySelectorAll('.play-item');
+
+
+//turn 128 seconds into 2:08
+function getTimeCodeFromNum(num) {
+  let seconds = parseInt(num);
+  let minutes = parseInt(seconds / 60);
+  seconds -= minutes * 60;
+  const hours = parseInt(minutes / 60);
+  minutes -= hours * 60;
+
+  if (hours === 0) return `${minutes}:${String(seconds % 60).padStart(2, 0)}`;
+  return `${String(hours).padStart(2, 0)}:${minutes}:${String(
+    seconds % 60
+  ).padStart(2, 0)}`;
+}
+
+
+const audioPlayer = document.querySelector(".player");
+const timeline = audioPlayer.querySelector(".timeline");
+const lenght = document.querySelector(".length");
+
+
+
+
+
+
+
+timeline.addEventListener("click", e => {
+  const timelineWidth = window.getComputedStyle(timeline).width;
+  const timeToSeek = e.offsetX / parseInt(timelineWidth) * audio.duration;
+  audio.currentTime = timeToSeek;
+}, false);
+
+setInterval(() => {
+  const progressBar = audioPlayer.querySelector(".progress");
+  progressBar.style.width = audio.currentTime / audio.duration * 100 + "%";
+  audioPlayer.querySelector(".play-time .current").textContent = getTimeCodeFromNum(
+    audio.currentTime
+  );
+}, 500);
+
+audio.addEventListener(
+  "loadeddata",
+  () => {
+    lenght.textContent = playList[playNum].duration;
+    audio.volume = .75;
+  },
+  false
+);
+
 
 function setLocalStorage() {
   localStorage.setItem("name", name.value);
