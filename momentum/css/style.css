@@ -191,11 +191,11 @@ body {
 }
 .slide-prev {
   left: 20px;
-  background-image: url(/momentum/slider-prev.svg);
+  background-image: url(../play-prev.svg);
 }
 .slide-next {
   right: 20px;
-  background-image: url(/momentum/slider-next.svg);
+  background-image: url(../slider-next.svg);
 }
 .city {
   width: 170px;
