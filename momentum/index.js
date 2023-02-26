@@ -38,23 +38,23 @@ function showDate() {
   const date = new Date();
   let options;
   options = { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long', timeZone: 'UTC' };
-  const currentDate = date.toLocaleDateString("en-En", options);
+  const currentDate = date.toLocaleDateString("ru-Ru", options);
   day.textContent = currentDate;
 }
 
-
+const timeOfDay = ['Доброй ночи', 'Доброе утро', 'Добрый день', 'Добрый вечер'];
 function getTimeOfDay() {
   const date = new Date();
   const hours = date.getHours();
   let i = Math.floor(hours / 6);
   if (i == 1) {
-    return (greeting.textContent = "Good morning");
+    return (greeting.textContent = timeOfDay[1]);
   } else if (i == 2) {
-    return (greeting.textContent = "Good afternoon");
+    return (greeting.textContent = timeOfDay[2]);
   } else if (i == 3) {
-    return (greeting.textContent = "Good evening");
+    return (greeting.textContent = timeOfDay[3]);
   } else if (i == 0 || i == 4) {
-    return (greeting.textContent = "Good night");
+    return (greeting.textContent = timeOfDay[0]);
   }
 }
 getTimeOfDay();
@@ -78,9 +78,13 @@ function setBg() {
   } else {
     body.style.backgroundImage = `url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/morning/${randomNum}.jpg')`;
   }
+  // const img = new Image();
+  // img.src = body.style.backgroundImage;
+  // img.onload = () => {      
+  //   document.body.style.backgroundImage = body.style.backgroundImage.toString();
+  // }; 
 }
 setBg();
-console.log(Number(randomNum));
 slidePrev.addEventListener("click", function clickPrev() {
   if (randomNum == 1) {
     randomNum = 20;
@@ -109,7 +113,6 @@ async function getWeather() {
   weatherDescription.textContent = data.weather[0].description;
   wind.textContent = `Скорость ветра: ${Math.floor(data.wind.speed)}м/c`;
   humidity.textContent = `Влажность: ${data.main.humidity}%`;
-  console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
 }
 getWeather();
 city.addEventListener("change", () => {
@@ -122,7 +125,6 @@ async function getQuotes() {
   const quotes = "data.json";
   const res = await fetch(quotes);
   data = await res.json();
-  console.log(data);
   showQuote();
 }
 
@@ -181,7 +183,6 @@ function pauseAudio() {
 }
 
 import playList from './playList.js';
-console.log(playList);
 
 const li = document.createElement('li');
 const listItem = document.querySelectorAll('.play-item');
