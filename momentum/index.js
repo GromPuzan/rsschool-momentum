@@ -1,14 +1,9 @@
 const time = document.querySelector(".time");
-// const date = new Date();
-// const hours = date.getHours();
 const day = document.querySelector(".date");
 const options = { month: "long", day: "numeric", timeZone: "UTC" };
-// const currentDate = date.toLocaleDateString("en-En", options);
 const greeting = document.querySelector(".greeting");
 const body = document.querySelector("body");
 const name = document.querySelector(".name");
-body.style.backgroundImage =
-  "url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/evening/18.jpg')";
 let randomNum = getRandomNum(1, 21);
 const slideNext = document.querySelector(".slide-next");
 const slidePrev = document.querySelector(".slide-prev");
@@ -37,12 +32,18 @@ function showTime() {
 function showDate() {
   const date = new Date();
   let options;
-  options = { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long', timeZone: 'UTC' };
+  options = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    weekday: "long",
+    timeZone: "UTC",
+  };
   const currentDate = date.toLocaleDateString("ru-Ru", options);
   day.textContent = currentDate;
 }
 
-const timeOfDay = ['Доброй ночи', 'Доброе утро', 'Добрый день', 'Добрый вечер'];
+const timeOfDay = ["Доброй ночи", "Доброе утро", "Добрый день", "Добрый вечер"];
 function getTimeOfDay() {
   const date = new Date();
   const hours = date.getHours();
@@ -78,11 +79,6 @@ function setBg() {
   } else {
     body.style.backgroundImage = `url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/morning/${randomNum}.jpg')`;
   }
-  // const img = new Image();
-  // img.src = body.style.backgroundImage;
-  // img.onload = () => {      
-  //   document.body.style.backgroundImage = body.style.backgroundImage.toString();
-  // }; 
 }
 setBg();
 slidePrev.addEventListener("click", function clickPrev() {
@@ -102,7 +98,7 @@ slideNext.addEventListener("click", function clickNext() {
   }
   setBg(randomNum, clickNext);
 });
-city.value = 'Minsk'
+city.value = "Minsk";
 async function getWeather() {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=ru&appid=2a5d749c64b251d9bd8104ad9c066de3&units=metric`;
   const res = await fetch(url);
@@ -138,20 +134,18 @@ changeQuote.addEventListener("click", () => {
   showQuote();
 });
 
-
 // Аудиоплеер
-const playerPlay = document.querySelector('.player-button-play');
-const playerNext = document.querySelector('.player-button-next');
-const playerPrev = document.querySelector('.player-button-prev');
-const title = document.querySelector('.title');
+const playerPlay = document.querySelector(".player-button-play");
+const playerNext = document.querySelector(".player-button-next");
+const playerPrev = document.querySelector(".player-button-prev");
+const title = document.querySelector(".title");
 
 playerPlay.addEventListener("click", () => {
-  playerPlay.classList.add('player-button-pause');
-  if(isPlay === true){
+  playerPlay.classList.add("player-button-pause");
+  if (isPlay === true) {
     pauseAudio();
     isPlay = false;
-  }
-  else {
+  } else {
     playAudio();
   }
 });
@@ -162,33 +156,31 @@ function playAudio() {
   audio.currentTime = 0;
   audio.play();
   isPlay = true;
-  listItem.forEach((el) => el.classList.remove('item-active'));
-  listItem[playNum].classList.add('item-active');
-};
-playerPrev.addEventListener('click', () => {
-  playerPlay.classList.add('player-button-pause');
+  listItem.forEach((el) => el.classList.remove("item-active"));
+  listItem[playNum].classList.add("item-active");
+}
+playerPrev.addEventListener("click", () => {
+  playerPlay.classList.add("player-button-pause");
   playNum == 0 ? (playNum = playList.length - 1) : playNum--;
   playAudio();
   isPlay = true;
 });
-playerNext.addEventListener('click', () => {
-  playerPlay.classList.add('player-button-pause');
+playerNext.addEventListener("click", () => {
+  playerPlay.classList.add("player-button-pause");
   playNum == playList.length - 1 ? (playNum = 0) : playNum++;
   playAudio();
   isPlay = true;
 });
 function pauseAudio() {
   audio.pause();
-  playerPlay.classList.remove('player-button-pause');
+  playerPlay.classList.remove("player-button-pause");
 }
 
-import playList from './playList.js';
+import playList from "./playList.js";
 
-const li = document.createElement('li');
-const listItem = document.querySelectorAll('.play-item');
+const li = document.createElement("li");
+const listItem = document.querySelectorAll(".play-item");
 
-
-//turn 128 seconds into 2:08
 function getTimeCodeFromNum(num) {
   let seconds = parseInt(num);
   let minutes = parseInt(seconds / 60);
@@ -202,49 +194,48 @@ function getTimeCodeFromNum(num) {
   ).padStart(2, 0)}`;
 }
 
-
 const audioPlayer = document.querySelector(".player");
 const timeline = audioPlayer.querySelector(".timeline");
 const lenght = document.querySelector(".length");
 
-
-
-
-
-
-
-timeline.addEventListener("click", e => {
-  const timelineWidth = window.getComputedStyle(timeline).width;
-  const timeToSeek = e.offsetX / parseInt(timelineWidth) * audio.duration;
-  audio.currentTime = timeToSeek;
-}, false);
+timeline.addEventListener(
+  "click",
+  (e) => {
+    const timelineWidth = window.getComputedStyle(timeline).width;
+    const timeToSeek = (e.offsetX / parseInt(timelineWidth)) * audio.duration;
+    audio.currentTime = timeToSeek;
+  },
+  false
+);
 
 setInterval(() => {
   const progressBar = audioPlayer.querySelector(".progress");
-  progressBar.style.width = audio.currentTime / audio.duration * 100 + "%";
-  audioPlayer.querySelector(".play-time .current").textContent = getTimeCodeFromNum(
-    audio.currentTime
-  );
+  progressBar.style.width = (audio.currentTime / audio.duration) * 100 + "%";
+  audioPlayer.querySelector(".play-time .current").textContent =
+    getTimeCodeFromNum(audio.currentTime);
 }, 500);
 
 audio.addEventListener(
   "loadeddata",
   () => {
     lenght.textContent = playList[playNum].duration;
-    audio.volume = .75;
+    audio.volume = 0.75;
   },
   false
 );
 
-// регулятор громкости 
 const volumeSlider = document.querySelector(".volume-slider");
-const volumePercentage = document.querySelector('.volume-percentage')
-volumeSlider.addEventListener('click', e => {
-  const sliderWidth = window.getComputedStyle(volumeSlider).width;
-  const newVolume = e.offsetX / parseInt(sliderWidth);
-  audio.volume = newVolume;
-  volumePercentage.style.width = newVolume * 100 + '%';
-}, false)
+const volumePercentage = document.querySelector(".volume-percentage");
+volumeSlider.addEventListener(
+  "click",
+  (e) => {
+    const sliderWidth = window.getComputedStyle(volumeSlider).width;
+    const newVolume = e.offsetX / parseInt(sliderWidth);
+    audio.volume = newVolume;
+    volumePercentage.style.width = newVolume * 100 + "%";
+  },
+  false
+);
 
 function setLocalStorage() {
   localStorage.setItem("name", name.value);
