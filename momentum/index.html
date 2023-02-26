@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/momentum/css/owfont-regular.css" />
+    <link rel="stylesheet" href="/momentum/css/style.css" />
+    <link rel="icon" href="/momentum/assets/favicon.ico" type="image/x-icon" />
+    <title>Momentum</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="player">
+        <div class="title"></div>
+        <div class="player-controls">
+          <button class="player-button-prev player-icon"></button>
+          <button class="player-button-play player-icon"></button>
+          <button class="player-button-next player-icon"></button>
+        </div>
+        <div class="timeline">
+          <div class="progress"></div>
+        </div>
+        <div class="play-time">
+          <div class="current"></div>
+          <div class="divider">/</div>
+          <div class="length"></div>
+        </div>
+        <div class="volume-container">
+          <div class="volume-button">
+            <div class="volume-icon"></div>
+          </div>
+          <div class="volume-slider">
+            <div class="volume-percentage"></div>
+          </div>
+        </div>
+        <ul class="play-list">
+          <li class="play-item">Aqua Caelestis</li>
+          <li class="play-item">River Flows In You</li>
+          <li class="play-item">Ennio Morricone</li>
+          <li class="play-item">Summer Wind</li>
+        </ul>
+      </div>
+      <div class="weather">
+        <input type="text" class="city" />
+        <i class="weather-icon owf"></i>
+        <div class="temperature"></div>
+        <div class="weather-description"></div>
+        <div class="wind"></div>
+        <div class="humidity"></div>
+      </div>
+    </header>
+    <main class="main">
+      <div class="slider-icons">
+        <div class="slide-prev slider-icon"></div>
+        <div class="slide-next slider-icon"></div>
+      </div>
+      <div class="time"></div>
+      <div class="date"></div>
+      <div class="greetings-container">
+        <span class="greeting">ghty</span>
+        <input type="text" class="name" />
+      </div>
+    </main>
+    <footer class="footer">
+      <button class="change-quote"></button>
+      <div>
+        <div class="quote"></div>
+        <div class="author"></div>
+      </div>
+    </footer>
+    <script type="module" src="./index.js"></script>
+    <script type="module" src="./playList.js"></script>
+  </body>
+</html>
